@@ -2,6 +2,13 @@ pipeline {
     agent any 
 
     stages {
+        stage('Sonarqube') {
+	    steps {
+	        sh "env > env.txt"
+		sh "readFile('env.txt').split('\r?\n').each { println it }"
+		sh "echo TODO"
+	    }
+	}
         stage('Build'){
             steps {
                 sh "${env.SAG_HOME}/common/lib/ant/bin/ant -DSAGHome=${env.SAG_HOME} -DSAG_CI_HOME=${env.SAG_CI_HOME} -DprojectName=${env.JOB_NAME} build"
@@ -18,5 +25,10 @@ pipeline {
 		junit 'report/'
             }
         }
+	stage('Publish to nexus') {
+	    steps {
+	        sh ""
+            }
+	}
     }
 }
