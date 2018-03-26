@@ -4,8 +4,6 @@ pipeline {
     stages {
         stage('Sonarqube') {
 	    steps {
-	        sh "env > env.txt"
-		sh "readFile('env.txt').split('\r?\n').each { println it }"
 		sh "echo TODO"
 	    }
 	}
@@ -27,7 +25,8 @@ pipeline {
         }
 	stage('Publish to nexus') {
 	    steps {
-	        sh ""
+	        sh "env > env2.txt"
+		sh ""
             }
 	}
     }
